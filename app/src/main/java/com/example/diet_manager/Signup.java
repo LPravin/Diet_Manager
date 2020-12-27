@@ -3,6 +3,7 @@ package com.example.diet_manager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -18,7 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class Signup extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView editName,editMail,editPassword;
+    private TextView editName,editMail,editPassword,editwt,editht;
     private Button submit;
 
     private FirebaseAuth mAuth;
@@ -30,6 +31,8 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
         editName=findViewById(R.id.name);
         editMail=findViewById(R.id.mail);
         editPassword=findViewById(R.id.password);
+        editwt=findViewById(R.id.wt);
+        editht=findViewById(R.id.ht);
         submit=findViewById(R.id.submit);
         submit.setOnClickListener(this);
     }
@@ -47,6 +50,8 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
         String email=editMail.getText().toString().trim();
         String name=editName.getText().toString().trim();
         String password=editPassword.getText().toString().trim();
+        String weight=editwt.getText().toString();
+        String height=editht.getText().toString();
 
         if(name.isEmpty()){
             editName.setError("Name is required");
@@ -73,13 +78,29 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
             editPassword.requestFocus();
             return;
         }
+        else if(email.isEmpty()){
+            editMail.setError("Email is required");
+            editMail.requestFocus();
+            return;
+        }
+        else if(height.isEmpty()){
+            editht.setError("Height is required");
+            editht.requestFocus();
+            return;
+        }
+        else if(weight.isEmpty()){
+            editwt.setError("Weight is required");
+            editht.requestFocus();
+            return;
+        }
 
         mAuth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            User user=new User(name,email,password);
+                            float bmi= Float.parseFloat(weight)/((Float.parseFloat(height)*Float.parseFloat(height))/10000);
+                            User user=new User(name,email,password,height,weight,bmi);
 
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -88,6 +109,7 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
                                         Toast.makeText(Signup.this, "Success!", Toast.LENGTH_LONG).show();
+                                        startActivity(new Intent(Signup.this,MainActivity.class));
                                     }
                                     else {
                                         Toast.makeText(Signup.this,"Try again", Toast.LENGTH_LONG).show();
