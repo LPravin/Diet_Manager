@@ -33,6 +33,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_home);
         editBMI=(TextView) findViewById(R.id.bmi);
         pmeter=findViewById(R.id.pmeter);
+        pmeter.setOnClickListener(this);
+        profile.setOnClickListener(this);
         profile=findViewById(R.id.profile);
         user= FirebaseAuth.getInstance().getCurrentUser();
         reference=FirebaseDatabase.getInstance().getReference("Users");

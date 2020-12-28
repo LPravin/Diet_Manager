@@ -3,6 +3,7 @@ package com.example.diet_manager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,8 +18,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class Profile extends AppCompatActivity {
-    private Button update;
+public class Profile extends AppCompatActivity implements View.OnClickListener {
+    private Button update,back;
     private TextView height,weight;
     private FirebaseUser user;
     private DatabaseReference reference;
@@ -29,6 +30,9 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         update=findViewById(R.id.update);
+        update.setOnClickListener(this);
+        back=findViewById(R.id.backk);
+        back.setOnClickListener(this);
         height=findViewById(R.id.editht);
         weight=findViewById(R.id.editwt);
         user= FirebaseAuth.getInstance().getCurrentUser();
@@ -52,9 +56,13 @@ public class Profile extends AppCompatActivity {
                 Toast.makeText(Profile.this,"Something wrong happened",Toast.LENGTH_LONG).show();
             }
         });
-        update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.update:
                 String ht=height.getText().toString();
                 String wt=weight.getText().toString();
                 if(ht.isEmpty()){
@@ -68,7 +76,10 @@ public class Profile extends AppCompatActivity {
                 reference.child(userid).child("height").setValue(ht);
                 reference.child(userid).child("weight").setValue(wt);
                 Toast.makeText(Profile.this,"Updated successfully",Toast.LENGTH_SHORT).show();
-            }
-        });
+                break;
+            case R.id.back:
+                startActivity(new Intent(Profile.this,Home.class));
+                break;
+        }
     }
 }

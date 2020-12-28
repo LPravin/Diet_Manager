@@ -3,20 +3,24 @@ package com.example.diet_manager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
-public class Pedometer extends AppCompatActivity implements SensorEventListener {
+public class Pedometer extends AppCompatActivity implements SensorEventListener, View.OnClickListener {
     private TextView tv;
     private SensorManager sensorManager;
     private Sensor sensor;
     private boolean isCounterPresent;
     private int stepcount;
+    private Button back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +28,8 @@ public class Pedometer extends AppCompatActivity implements SensorEventListener 
         setContentView(R.layout.activity_pedometer);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         tv=findViewById(R.id.tv);
+        back=findViewById(R.id.back);
+        back.setOnClickListener(this);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
         if(sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)!=null){
@@ -61,6 +67,15 @@ public class Pedometer extends AppCompatActivity implements SensorEventListener 
         super.onPause();
         if(isCounterPresent){
             sensorManager.unregisterListener(this,sensor);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.back:
+                startActivity(new Intent(Pedometer.this,Home.class));
+                break;
         }
     }
 }

@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 login();
                 break;
             case R.id.signup:
-                startActivity(new Intent(this, Signup.class));
+                startActivity(new Intent(MainActivity.this, Signup.class));
                 break;
         }
     }
