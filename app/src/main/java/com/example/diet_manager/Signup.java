@@ -63,24 +63,19 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
             editMail.requestFocus();
             return;
         }
-        else if(password.isEmpty()){
-            editPassword.setError("Password is required");
-            editPassword.requestFocus();
-            return;
-        }
         else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             editMail.setError("Please provide valid Email");
             editMail.requestFocus();
             return;
         }
-        else if(password.length()<6) {
-            editPassword.setError("Please enter password with at least 6 characters");
+        else if(password.isEmpty()){
+            editPassword.setError("Password is required");
             editPassword.requestFocus();
             return;
         }
-        else if(email.isEmpty()){
-            editMail.setError("Email is required");
-            editMail.requestFocus();
+        else if(password.length()<6) {
+            editPassword.setError("Please enter password with at least 6 characters");
+            editPassword.requestFocus();
             return;
         }
         else if(height.isEmpty()){

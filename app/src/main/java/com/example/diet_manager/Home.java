@@ -24,7 +24,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     private FirebaseUser user;
     private DatabaseReference reference;
     private String userid;
-    private Button pmeter;
+    private Button pmeter, profile;
 
 
     @Override
@@ -33,6 +33,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_home);
         editBMI=(TextView) findViewById(R.id.bmi);
         pmeter=findViewById(R.id.pmeter);
+        profile=findViewById(R.id.profile);
         user= FirebaseAuth.getInstance().getCurrentUser();
         reference=FirebaseDatabase.getInstance().getReference("Users");
         userid=user.getUid();
@@ -62,6 +63,9 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         switch (v.getId()){
             case R.id.pmeter:
                 startActivity(new Intent(Home.this,Pedometer.class));
+                break;
+            case R.id.profile:
+                startActivity(new Intent(Home.this,Profile.class));
                 break;
         }
     }

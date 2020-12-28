@@ -53,22 +53,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String mail=editMail.getText().toString().trim();
         String password=editPassword.getText().toString().trim();
         if(mail.isEmpty()){
-            Toast.makeText(MainActivity.this,"Email is empty!",Toast.LENGTH_SHORT).show();
+            editMail.setError("Email is required");
             editMail.requestFocus();
             return;
         }
         else if(!Patterns.EMAIL_ADDRESS.matcher(mail).matches()){
-            Toast.makeText(MainActivity.this,"Please Enter valid Email",Toast.LENGTH_SHORT).show();
+            editMail.setError("Email is required");
             editMail.requestFocus();
             return;
         }
         else if(password.isEmpty()){
-            Toast.makeText(MainActivity.this,"Password is Empty",Toast.LENGTH_SHORT).show();
+            editPassword.setError("Password is required");
             editPassword.requestFocus();
             return;
         }
         else if(password.length() < 6){
-            Toast.makeText(MainActivity.this,"Password must be the size of greater than 5",Toast.LENGTH_SHORT).show();
+            editPassword.setError("Please enter password with at least 6 characters");
             editPassword.requestFocus();
             return;
         }
