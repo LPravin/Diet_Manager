@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         editMail=findViewById(R.id.mailid);
         editPassword=findViewById(R.id.pw);
+
         signup=findViewById(R.id.signup);
         signup.setOnClickListener(this);
         signin=findViewById(R.id.signin);
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
                     if(user.isEmailVerified()){
                         startActivity(new Intent(MainActivity.this,Home.class));
+                        finish();
                     }
                     else{
                         user.sendEmailVerification();

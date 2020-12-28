@@ -24,7 +24,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     private FirebaseUser user;
     private DatabaseReference reference;
     private String userid;
-    private Button pmeter, profile;
+    private Button pm, prof;
 
 
     @Override
@@ -32,14 +32,9 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         editBMI=(TextView) findViewById(R.id.bmi);
-        pmeter=findViewById(R.id.pmeter);
-        pmeter.setOnClickListener(this);
-        profile.setOnClickListener(this);
-        profile=findViewById(R.id.profile);
         user= FirebaseAuth.getInstance().getCurrentUser();
         reference=FirebaseDatabase.getInstance().getReference("Users");
         userid=user.getUid();
-
         reference.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -58,16 +53,24 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 Toast.makeText(Home.this,"Something wrong happened",Toast.LENGTH_LONG).show();
             }
         });
+        pm=findViewById(R.id.pmeter);
+        prof=findViewById(R.id.profile);
+        pm.setOnClickListener(this);
+        prof.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.pmeter:
-                startActivity(new Intent(Home.this,Pedometer.class));
+                startActivity(new Intent(Home.this, Pedometer.class));
+                finish();
                 break;
             case R.id.profile:
-                startActivity(new Intent(Home.this,Profile.class));
+                Intent intent=new Intent(Home.this,Profile.class);
+                intent.putExtra("Uid",userid);
+                startActivity(intent);
+                finish();
                 break;
         }
     }

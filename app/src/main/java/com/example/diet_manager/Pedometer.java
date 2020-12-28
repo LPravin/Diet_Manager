@@ -26,7 +26,6 @@ public class Pedometer extends AppCompatActivity implements SensorEventListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pedometer);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         tv=findViewById(R.id.tv);
         back=findViewById(R.id.back);
         back.setOnClickListener(this);

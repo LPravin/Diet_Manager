@@ -21,42 +21,34 @@ import com.google.firebase.database.ValueEventListener;
 public class Profile extends AppCompatActivity implements View.OnClickListener {
     private Button update,back;
     private TextView height,weight;
-    private FirebaseUser user;
-    private DatabaseReference reference;
     private String userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        update=findViewById(R.id.update);
-        update.setOnClickListener(this);
-        back=findViewById(R.id.backk);
-        back.setOnClickListener(this);
+        userid=getIntent().getStringExtra("Uid");
         height=findViewById(R.id.editht);
         weight=findViewById(R.id.editwt);
-        user= FirebaseAuth.getInstance().getCurrentUser();
-        reference= FirebaseDatabase.getInstance().getReference("Users");
-        userid=user.getUid();
-        reference.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
+        update=findViewById(R.id.update);
+        back=findViewById(R.id.back);
+        FirebaseDatabase.getInstance().getReference("Users").child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User profile=snapshot.getValue(User.class);
-
                 if(profile!=null){
-                    String sht=profile.height;
-                    String swt=profile.weight;
-                    height.setText(sht);
-                    weight.setText(swt);
+                    height.setText(profile.height);
+                    weight.setText(profile.weight);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Profile.this,"Something wrong happened",Toast.LENGTH_LONG).show();
+
             }
         });
-
+        update.setOnClickListener(this);
+        back.setOnClickListener(this);
     }
 
     @Override
@@ -73,8 +65,8 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
                     weight.setError("Weight is required");
                     return;
                 }
-                reference.child(userid).child("height").setValue(ht);
-                reference.child(userid).child("weight").setValue(wt);
+                FirebaseDatabase.getInstance().getReference("Users").child(userid).child("height").setValue(ht);
+                FirebaseDatabase.getInstance().getReference("Users").child(userid).child("weight").setValue(wt);
                 Toast.makeText(Profile.this,"Updated successfully",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.back:
