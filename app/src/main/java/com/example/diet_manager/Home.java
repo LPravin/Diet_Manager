@@ -24,7 +24,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     private FirebaseUser user;
     private DatabaseReference reference;
     private String userid;
-    private Button pm, prof;
+    private Button pm, prof,plan;
 
 
     @Override
@@ -55,8 +55,10 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         });
         pm=findViewById(R.id.pmeter);
         prof=findViewById(R.id.profile);
+        plan=findViewById(R.id.plan);
         pm.setOnClickListener(this);
         prof.setOnClickListener(this);
+        plan.setOnClickListener(this);
     }
 
     @Override
@@ -71,6 +73,9 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 intent.putExtra("Uid",userid);
                 startActivity(intent);
                 finish();
+                break;
+            case R.id.plan:
+                startActivity(new Intent(Home.this,viewplans.class));
                 break;
         }
     }

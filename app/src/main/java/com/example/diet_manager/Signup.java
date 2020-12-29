@@ -94,8 +94,7 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            float bmi= Float.parseFloat(weight)/((Float.parseFloat(height)*Float.parseFloat(height))/10000);
-                            User user=new User(name,email,password,height,weight,bmi);
+                            User user=new User(name,email,password,height,weight);
 
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
